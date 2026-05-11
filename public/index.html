@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATHLETE FUEL</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,700&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8002D;
+    --red2: #ff1744;
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --off: #f5f5f5;
+    --gray1: #e8e8e8;
+    --gray2: #b0b0b0;
+    --gray3: #6b6b6b;
+    --gray4: #2a2a2a;
+    --text: #0a0a0a;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-cond: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .app { position: relative; }
+
+  /* ===== PAGES ===== */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: flex; flex-direction: column; }
+
+  /* ===== AUTH ===== */
+  .auth-layout {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .auth-hero {
+    background: var(--black);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 48px;
+    position: relative; overflow: hidden;
+  }
+
+  .auth-hero::before {
+    content: 'FUEL';
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 28vw;
+    color: rgba(255,255,255,0.03);
+    bottom: -60px; right: -40px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .hero-stripe {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    width: 6px;
+    background: var(--red);
+  }
+
+  .hero-logo {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: var(--white);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .hero-logo span {
+    display: block;
+    font-family: var(--font-cond);
+    font-size: .85rem;
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: var(--red);
+    margin-top: 4px;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    color: var(--white);
+    line-height: .95;
+    letter-spacing: 2px;
+  }
+
+  .hero-tagline em {
+    font-style: normal;
+    color: var(--red);
+    display: block;
+  }
+
+  .hero-bottom {
+    font-family: var(--font-cond);
+    font-size: .75rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: var(--gray2);
+    text-transform: uppercase;
+  }
+
+  /* Auth form panel */
+  .auth-form-panel {
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 48px;
+  }
+
+  .auth-form-inner { width: 100%; max-width: 380px; }
+
+  .auth-form-title {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .auth-form-sub {
+    font-family: var(--font-cond);
+    font-size: .8rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gray2);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-label {
+    display: block;
+    font-family: var(--font-cond);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray3);
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--gray1);
+    background: transparent;
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 12px 0;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .form-input:focus { border-bottom-color: var(--black); }
+  .form-input::placeholder { color: var(--gray2); font-weight: 300; }
+
+  .btn-main {
+    width: 100%; padding: 18px;
+    background: var(--black);
+    border: none; color: var(--white);
+    font-family: var(--font-display);
+    font-size: 1.1rem; letter-spacing: 4px;
+    cursor: pointer; transition: .2s;
+    position: relative; overflow: hidden;
+    margin-top: 12px;
+  }
+
+  .btn-main::after {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 0; background: var(--red);
+    transition: width .3s ease;
+    z-index: 0;
+  }
+
+  .btn-main:hover::after { width: 100%; }
+  .btn-main span { position: relative; z-index: 1; }
+
+  .auth-divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 24px 0;
+  }
+
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--gray1);
+  }
+
+  .auth-divider span {
+    font-family: var(--font-cond);
+    font-size: .7rem; letter-spacing: 2px;
+    color: var(--gray2); text-transform: uppercase;
+  }
+
+  .auth-switch {
+    text-align: center;
+    font-family: var(--font-cond);
+    font-size: .85rem; font-weight: 500;
+    letter-spacing: 1px; color: var(--gray3);
+  }
+
+  .auth-switch a {
+    color: var(--red); cursor: pointer;
+    font-weight: 700; text-decoration: none;
+    letter-spacing: 2px;
+  }
+
+  .alert {
+    padding: 12px 16px; margin-bottom: 20px;
+    font-family: var(--font-cond);
+    font-size: .8rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  .alert-error {
+    background: #fff0f3; color: var(--red);
+    border-left: 3px solid var(--red);
+  }
+
+  .alert-success {
+    background: #f0fff4; color: #00a854;
+    border-left: 3px solid #00a854;
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid var(--gray1);
+    background: var(--white);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: var(--font-display);
+    font-size: 1.4rem; letter-spacing: 4px;
+    color: var(--black);
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .nav-brand-dot {
+    width: 8px; height: 8px;
+    background: var(--red); border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.7} }
+
+  .nav-center {
+    display: flex; gap: 0;
+  }
+
+  .nav-tab {
+    background: none; border: none;
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray2); padding: 0 20px;
+    height: 64px; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: .2s; position: relative;
+    top: 1px;
+  }
+
+  .nav-tab.active { color: var(--black); border-bottom-color: var(--red); }
+  .nav-tab:hover { color: var(--black); }
+
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+
+  .nav-user {
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray3);
+  }
+
+  .cart-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--black); color: var(--white);
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 1px; padding: 6px 14px;
+    cursor: pointer; transition: .2s;
+  }
+
+  .cart-badge:hover { background: var(--red); }
+
+  .cart-count {
+    background: var(--red); color: var(--white);
+    width: 18px; height: 18px; border-radius: 50%;
+    font-size: .65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .btn-logout {
+    background: none; border: 1px solid var(--gray1);
+    color: var(--gray3);
+    font-family: var(--font-cond);
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; cursor: pointer; transition: .2s;
+  }
+
+  .btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+  /* ===== DASHBOARD ===== */
+  .dashboard { flex: 1; }
+
+  /* Hero band */
+  .dash-hero {
+    background: var(--black);
+    padding: 48px;
+    display: flex; align-items: flex-end;
+    justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+
+  .dash-hero::before {
+    content: 'FUEL';
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 20rem;
+    color: rgba(255,255,255,0.03);
+    right: -20px; top: -60px;
+    line-height: 1; pointer-events: none;
+  }
+
+  .dash-hero-left {}
+
+  .dash-greeting {
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gray2); margin-bottom: 8px;
+  }
+
+  .dash-name {
+    font-family: var(--font-display);
+    font-size: 3.5rem; letter-spacing: 3px;
+    color: var(--white); line-height: 1;
+  }
+
+  .dash-name span { color: var(--red); }
+
+  .dash-stats {
+    display: flex; gap: 40px;
+  }
+
+  .dash-stat { text-align: right; }
+
+  .dash-stat-val {
+    font-family: var(--font-display);
+    font-size: 2rem; letter-spacing: 2px;
+    color: var(--white); line-height: 1;
+  }
+
+  .dash-stat-val.red { color: var(--red); }
+
+  .dash-stat-label {
+    font-family: var(--font-cond);
+    font-size: .65rem; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray2); margin-top: 2px;
+  }
+
+  /* Content area */
+  .content { padding: 40px 48px; }
+
+  /* Section header */
+  .sec-head {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .sec-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem; letter-spacing: 3px;
+    color: var(--black);
+  }
+
+  .sec-title span {
+    color: var(--red);
+  }
+
+  /* Filter pills */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .filter-pill {
+    background: none;
+    border: 1.5px solid var(--gray1);
+    color: var(--gray3);
+    font-family: var(--font-cond);
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 8px 18px; cursor: pointer; transition: .2s;
+  }
+
+  .filter-pill.active, .filter-pill:hover {
+    background: var(--black); border-color: var(--black);
+    color: var(--white);
+  }
+
+  .filter-pill.active { border-color: var(--red); background: var(--red); }
+
+  /* Catalog grid */
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2px;
+  }
+
+  .item-card {
+    background: var(--white);
+    border: 1px solid var(--gray1);
+    overflow: hidden; cursor: pointer;
+    transition: .3s; position: relative;
+  }
+
+  .item-card:hover {
+    border-color: var(--black);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    z-index: 1;
+  }
+
+  .item-card-top {
+    background: var(--off);
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    position: relative; overflow: hidden;
+    transition: .3s;
+  }
+
+  .item-card:hover .item-card-top { background: var(--gray1); }
+
+  .item-card-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--black); color: var(--white);
+    font-family: var(--font-cond);
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 3px 8px;
+  }
+
+  .item-card-body { padding: 16px; }
+
+  .item-card-name {
+    font-family: var(--font-cond);
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--black); margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .item-card-price {
+    font-family: var(--font-body);
+    font-size: .85rem; font-weight: 600;
+    color: var(--red); margin-bottom: 14px;
+  }
+
+  .item-card-add {
+    display: flex; gap: 8px; align-items: center;
+  }
+
+  .qty-box {
+    width: 52px;
+    border: 1.5px solid var(--gray1);
+    background: transparent; color: var(--black);
+    font-family: var(--font-cond);
+    font-size: .9rem; font-weight: 700;
+    padding: 7px 8px; text-align: center; outline: none;
+    transition: .2s;
+  }
+
+  .qty-box:focus { border-color: var(--black); }
+
+  .btn-add {
+    flex: 1; padding: 8px;
+    background: var(--black); border: none;
+    color: var(--white);
+    font-family: var(--font-cond);
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: .2s;
+  }
+
+  .btn-add:hover { background: var(--red); }
+
+  /* ===== CART ===== */
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+  }
+
+  .cart-empty {
+    padding: 80px 40px; text-align: center;
+    border: 1.5px dashed var(--gray1);
+  }
+
+  .cart-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+
+  .cart-empty-text {
+    font-family: var(--font-cond);
+    font-size: .8rem; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray2);
+  }
+
+  .cart-item {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray1);
+    transition: .2s;
+  }
+
+  .cart-item:hover { background: var(--off); margin: 0 -16px; padding: 20px 16px; }
+
+  .cart-item-emoji {
+    width: 64px; height: 64px;
+    background: var(--off);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; flex-shrink: 0;
+  }
+
+  .cart-item-info { flex: 1; }
+
+  .cart-item-name {
+    font-family: var(--font-cond);
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--black); margin-bottom: 2px;
+  }
+
+  .cart-item-unit {
+    font-family: var(--font-body);
+    font-size: .8rem; color: var(--gray2);
+  }
+
+  .cart-qty-ctrl {
+    display: flex; align-items: center; gap: 0;
+  }
+
+  .qty-ctrl-btn {
+    width: 32px; height: 32px;
+    background: var(--off); border: 1px solid var(--gray1);
+    color: var(--black); font-size: 1rem;
+    cursor: pointer; transition: .2s;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body);
+  }
+
+  .qty-ctrl-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+  .qty-ctrl-num {
+    width: 40px; height: 32px;
+    border-top: 1px solid var(--gray1);
+    border-bottom: 1px solid var(--gray1);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-cond);
+    font-size: .9rem; font-weight: 700;
+  }
+
+  .cart-item-subtotal {
+    font-family: var(--font-cond);
+    font-size: 1rem; font-weight: 700;
+    color: var(--black); min-width: 110px; text-align: right;
+  }
+
+  .btn-remove {
+    background: none; border: none;
+    color: var(--gray2); font-size: 1.1rem;
+    cursor: pointer; transition: .2s; padding: 4px;
+  }
+
+  .btn-remove:hover { color: var(--red); }
+
+  /* Summary */
+  .summary-box {
+    background: var(--black);
+    padding: 32px; height: fit-content;
+    position: sticky; top: 80px;
+  }
+
+  .summary-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem; letter-spacing: 3px;
+    color: var(--white); margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .summary-line {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-family: var(--font-cond);
+    font-size: .8rem; font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .summary-line .s-name { color: rgba(255,255,255,0.5); }
+  .summary-line .s-val { color: var(--white); font-weight: 700; }
+
+  .summary-total {
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .summary-total-label {
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .summary-total-val {
+    font-family: var(--font-display);
+    font-size: 1.8rem; letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .btn-checkout {
+    width: 100%; margin-top: 24px; padding: 18px;
+    background: var(--red); border: none;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 1.1rem; letter-spacing: 4px;
+    cursor: pointer; transition: .2s;
+  }
+
+  .btn-checkout:hover { background: #ff1744; }
+  .btn-checkout:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: not-allowed; }
+
+  /* ===== RECEIPT ===== */
+  .receipt-outer {
+    flex: 1; background: var(--off);
+    display: flex; align-items: center; justify-content: center;
+    padding: 48px;
+  }
+
+  .receipt-paper {
+    background: var(--white);
+    width: 100%; max-width: 560px;
+    padding: 0; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
+
+  .receipt-head {
+    background: var(--black); padding: 32px 40px;
+    position: relative; overflow: hidden;
+  }
+
+  .receipt-head::before {
+    content: 'RECEIPT';
+    position: absolute; right: -20px; top: -20px;
+    font-family: var(--font-display);
+    font-size: 8rem; color: rgba(255,255,255,0.04);
+    line-height: 1; pointer-events: none;
+  }
+
+  .receipt-brand-name {
+    font-family: var(--font-display);
+    font-size: 2rem; letter-spacing: 5px;
+    color: var(--white);
+  }
+
+  .receipt-brand-sub {
+    font-family: var(--font-cond);
+    font-size: .65rem; font-weight: 300;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--red); margin-top: 2px;
+  }
+
+  .receipt-id {
+    margin-top: 16px;
+    font-family: var(--font-cond);
+    font-size: .7rem; font-weight: 400;
+    letter-spacing: 2px; color: rgba(255,255,255,0.4);
+  }
+
+  .receipt-body { padding: 32px 40px; }
+
+  .receipt-meta {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--gray1);
+  }
+
+  .receipt-meta-item {}
+
+  .receipt-meta-label {
+    font-family: var(--font-cond);
+    font-size: .65rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray2); margin-bottom: 4px;
+  }
+
+  .receipt-meta-val {
+    font-family: var(--font-cond);
+    font-size: .9rem; font-weight: 700;
+    letter-spacing: 1px; color: var(--black);
+  }
+
+  .receipt-items { margin-bottom: 24px; }
+
+  .receipt-item {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; padding: 12px 0;
+    border-bottom: 1px solid var(--gray1);
+  }
+
+  .receipt-item-left {}
+
+  .receipt-item-name {
+    font-family: var(--font-cond);
+    font-size: .9rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--black);
+  }
+
+  .receipt-item-detail {
+    font-family: var(--font-body);
+    font-size: .75rem; color: var(--gray2);
+    margin-top: 2px;
+  }
+
+  .receipt-item-sub {
+    font-family: var(--font-cond);
+    font-size: .9rem; font-weight: 700;
+    color: var(--black); text-align: right;
+  }
+
+  .receipt-total-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 20px 0;
+    border-top: 2px solid var(--black);
+    margin-top: 8px;
+  }
+
+  .receipt-total-label {
+    font-family: var(--font-display);
+    font-size: 1.1rem; letter-spacing: 3px;
+    color: var(--black);
+  }
+
+  .receipt-total-val {
+    font-family: var(--font-display);
+    font-size: 2rem; letter-spacing: 2px;
+    color: var(--red);
+  }
+
+  .receipt-foot {
+    background: var(--off);
+    padding: 24px 40px;
+    border-top: 1px solid var(--gray1);
+    text-align: center;
+    font-family: var(--font-cond);
+    font-size: .7rem; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray2); line-height: 2;
+  }
+
+  .receipt-actions {
+    display: flex; gap: 0; padding: 0 40px 32px;
+  }
+
+  .btn-outline {
+    flex: 1; padding: 14px;
+    background: none; border: 1.5px solid var(--gray1);
+    color: var(--gray3);
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: .2s;
+  }
+
+  .btn-outline:hover { border-color: var(--black); color: var(--black); }
+
+  .btn-filled {
+    flex: 1; padding: 14px;
+    background: var(--black); border: 1.5px solid var(--black);
+    color: var(--white);
+    font-family: var(--font-cond);
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: .2s;
+  }
+
+  .btn-filled:hover { background: var(--red); border-color: var(--red); }
+
+  /* ===== TEST TAB ===== */
+  .test-panel {
+    background: var(--black);
+    border-radius: 0; padding: 32px;
+    font-family: 'Courier New', monospace;
+    font-size: .85rem;
+  }
+
+  .test-panel-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem; letter-spacing: 3px;
+    color: var(--white); margin-bottom: 24px;
+  }
+
+  .test-panel-title span { color: var(--red); }
+
+  .test-line {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    animation: slideIn .3s ease forwards;
+    opacity: 0; transform: translateX(-10px);
+  }
+
+  @keyframes slideIn { to { opacity:1; transform:translateX(0); } }
+
+  .test-line:nth-child(2){animation-delay:.05s}
+  .test-line:nth-child(3){animation-delay:.1s}
+  .test-line:nth-child(4){animation-delay:.15s}
+  .test-line:nth-child(5){animation-delay:.2s}
+  .test-line:nth-child(6){animation-delay:.25s}
+
+  .test-icon { font-size: .9rem; }
+  .test-name { flex: 1; color: rgba(255,255,255,0.6); font-size: .8rem; letter-spacing: 1px; }
+
+  .test-badge {
+    font-family: var(--font-cond);
+    font-size: .65rem; font-weight: 900;
+    letter-spacing: 3px; padding: 3px 10px;
+    text-transform: uppercase;
+  }
+
+  .test-badge.pass { background: rgba(0,200,100,0.15); color: #00c864; }
+  .test-badge.fail { background: rgba(232,0,45,0.15); color: var(--red); }
+
+  .test-detail {
+    font-size: .7rem; color: rgba(255,255,255,0.3);
+    padding-left: 28px; padding-bottom: 6px;
+    letter-spacing: .5px;
+  }
+
+  .test-summary {
+    display: flex; gap: 32px;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .ts-item { font-family: var(--font-cond); font-size: .8rem; font-weight: 700; letter-spacing: 2px; }
+  .ts-pass { color: #00c864; }
+  .ts-fail { color: var(--red); }
+  .ts-total { color: rgba(255,255,255,0.4); }
+
+  .btn-run {
+    background: var(--red); border: none;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: .9rem; letter-spacing: 3px;
+    padding: 14px 32px; cursor: pointer; transition: .2s;
+    margin-bottom: 24px;
+  }
+
+  .btn-run:hover { background: #ff1744; }
+
+  @media (max-width: 900px) {
+    .auth-layout { grid-template-columns: 1fr; }
+    .auth-hero { display: none; }
+    .cart-layout { grid-template-columns: 1fr; }
+    .nav { padding: 0 20px; }
+    .content { padding: 24px 20px; }
+    .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+    .dash-hero { padding: 32px 20px; flex-direction: column; gap: 24px; }
+    .dash-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- ===== REGISTER ===== -->
+<div class="page active" id="page-register">
+  <div class="auth-layout">
+    <div class="auth-hero">
+      <div class="hero-stripe"></div>
+      <div class="hero-logo">ATHLETE<br>FUEL<span>PERFORMANCE NUTRITION</span></div>
+      <div class="hero-tagline">FUEL<em>YOUR</em>LIMITS.</div>
+      <div class="hero-bottom">© 2026 Athlete Fuel — All Rights Reserved</div>
+    </div>
+    <div class="auth-form-panel">
+      <div class="auth-form-inner">
+        <div class="auth-form-title">JOIN</div>
+        <div class="auth-form-sub">Create Your Athlete Profile</div>
+        <div id="reg-alert"></div>
+        <div class="form-group">
+          <label class="form-label">Athlete ID (Username)</label>
+          <input class="form-input" type="text" id="reg-username" placeholder="e.g. IRON_BEAST_01" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" id="reg-name" placeholder="Your display name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="reg-pass" placeholder="Min. 4 characters">
+        </div>
+        <button class="btn-main" onclick="handleRegister()"><span>CREATE ACCOUNT</span></button>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="auth-switch">Already have an account? <a onclick="showPage('page-login')">SIGN IN</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div class="page" id="page-login">
+  <div class="auth-layout">
+    <div class="auth-hero">
+      <div class="hero-stripe"></div>
+      <div class="hero-logo">ATHLETE<br>FUEL<span>PERFORMANCE NUTRITION</span></div>
+      <div class="hero-tagline">PUSH<em>HARDER.</em></div>
+      <div class="hero-bottom">© 2026 Athlete Fuel — All Rights Reserved</div>
+    </div>
+    <div class="auth-form-panel">
+      <div class="auth-form-inner">
+        <div class="auth-form-title">SIGN IN</div>
+        <div class="auth-form-sub">Welcome Back, Athlete</div>
+        <div id="login-alert"></div>
+        <div class="form-group">
+          <label class="form-label">Athlete ID</label>
+          <input class="form-input" type="text" id="login-username" placeholder="Your username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="login-pass" placeholder="Your password">
+        </div>
+        <button class="btn-main" onclick="handleLogin()"><span>SIGN IN</span></button>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="auth-switch">New athlete? <a onclick="showPage('page-register')">CREATE ACCOUNT</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div class="page" id="page-dashboard">
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      ATHLETE FUEL
+    </div>
+    <div class="nav-center">
+      <button class="nav-tab active" onclick="switchTab('catalog')">CATALOG</button>
+      <button class="nav-tab" onclick="switchTab('cart')">CART</button>
+      <button class="nav-tab" onclick="switchTab('tests')">SYSTEM TEST</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user" id="nav-username">—</div>
+      <div class="cart-badge" onclick="switchTab('cart')">
+        CART <div class="cart-count" id="cart-count">0</div>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">EXIT</button>
+    </div>
+  </nav>
+
+  <div class="dashboard">
+    <!-- Hero -->
+    <div class="dash-hero">
+      <div class="dash-hero-left">
+        <div class="dash-greeting">WELCOME BACK, ATHLETE</div>
+        <div class="dash-name" id="dash-name">ATHLETE <span>FUEL</span></div>
+      </div>
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <div class="dash-stat-val" id="stat-items">0</div>
+          <div class="dash-stat-label">Items in Cart</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-val red" id="stat-total">Rp 0</div>
+          <div class="dash-stat-label">Total Investment</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-val">18</div>
+          <div class="dash-stat-label">Products</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- TAB: CATALOG -->
+      <div id="tab-catalog">
+        <div class="sec-head">
+          <div class="sec-title">FUEL <span>INVENTORY</span></div>
+        </div>
+        <div class="filters" id="cat-filters"></div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+      </div>
+
+      <!-- TAB: CART -->
+      <div id="tab-cart" style="display:none">
+        <div class="sec-head">
+          <div class="sec-title">YOUR <span>CART</span></div>
+        </div>
+        <div class="cart-layout">
+          <div id="cart-list"></div>
+          <div class="summary-box">
+            <div class="summary-title">ORDER SUMMARY</div>
+            <div id="summary-lines"></div>
+            <div class="summary-total">
+              <div class="summary-total-label">Total</div>
+              <div class="summary-total-val" id="summary-total">Rp 0</div>
+            </div>
+            <button class="btn-checkout" id="btn-checkout" onclick="handleCheckout()" disabled>
+              CHECKOUT
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: TESTS -->
+      <div id="tab-tests" style="display:none">
+        <div class="sec-head">
+          <div class="sec-title">SYSTEM <span>TESTS</span></div>
+        </div>
+        <button class="btn-run" onclick="runAllTests()">▶ RUN ALL TESTS</button>
+        <div id="test-output"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== RECEIPT ===== -->
+<div class="page" id="page-receipt">
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      ATHLETE FUEL
+    </div>
+    <div class="nav-right">
+      <div class="nav-user" id="nav-username-r">—</div>
+    </div>
+  </nav>
+  <div class="receipt-outer">
+    <div id="receipt-content"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ===== OOP CLASSES =====
+class Barang {
+  constructor(id, nama, harga, kategori, emoji) {
+    if (typeof nama !== 'string' || nama.trim() === '') throw new Error('Nama barang tidak valid');
+    if (typeof harga !== 'number' || isNaN(harga)) throw new Error('Harga harus berupa angka');
+    if (harga < 0) throw new Error('Harga tidak boleh negatif');
+    this.id = id; this.nama = nama.trim();
+    this.harga = harga; this.kategori = kategori || 'Umum'; this.emoji = emoji || '📦';
+  }
+  getHargaFormatted() { return 'Rp ' + this.harga.toLocaleString('id-ID'); }
+}
+
+class ItemKeranjang {
+  constructor(barang, qty = 1) {
+    if (!(barang instanceof Barang)) throw new Error('Harus instance Barang');
+    if (!Number.isInteger(qty) || qty < 1) throw new Error('Qty harus bilangan bulat positif');
+    this.barang = barang; this.qty = qty;
+  }
+  getSubtotal() { return this.barang.harga * this.qty; }
+  setQty(qty) { if (!Number.isInteger(qty) || qty < 1) throw new Error('Qty tidak valid'); this.qty = qty; }
+}
+
+class Transaksi {
+  constructor(pelanggan) {
+    if (!pelanggan || typeof pelanggan !== 'string' || pelanggan.trim() === '') throw new Error('Nama pelanggan harus berupa string tidak kosong');
+    this.id = 'TXN-' + Date.now().toString(36).toUpperCase();
+    this.pelanggan = pelanggan.trim(); this.items = [];
+    this.waktu = new Date(); this.selesai = false;
+  }
+  tambahBarang(barang, qty = 1) {
+    if (!(barang instanceof Barang)) throw new Error('Parameter harus instance dari Barang');
+    if (!Number.isInteger(qty) || qty < 1) throw new Error('Qty harus bilangan bulat >= 1');
+    const ex = this.items.find(i => i.barang.id === barang.id);
+    if (ex) ex.setQty(ex.qty + qty); else this.items.push(new ItemKeranjang(barang, qty));
+    return this;
+  }
+  hapusBarang(id) { this.items = this.items.filter(i => i.barang.id !== id); }
+  updateQty(id, qty) {
+    const item = this.items.find(i => i.barang.id === id);
+    if (!item) throw new Error('Barang tidak ditemukan dalam transaksi');
+    if (!Number.isInteger(qty) || qty < 1) throw new Error('Qty tidak boleh kurang dari 1');
+    item.setQty(qty);
+  }
+  hitungTotal() {
+    const t = this.items.reduce((s, i) => s + i.getSubtotal(), 0);
+    if (t < 0) throw new Error('Total tidak boleh negatif');
+    return t;
+  }
+  jumlahItem() { return this.items.reduce((s, i) => s + i.qty, 0); }
+  selesaikan() {
+    if (this.items.length === 0) throw new Error('Tidak ada item dalam transaksi — tidak bisa diselesaikan');
+    this.selesai = true; return this;
+  }
+  tampilkanStruk() {
+    if (!this.selesai) throw new Error('Transaksi belum diselesaikan — panggil selesaikan() terlebih dahulu');
+    return {
+      id: this.id, pelanggan: this.pelanggan,
+      waktu: this.waktu.toLocaleString('id-ID'),
+      items: this.items.map(i => ({ nama: i.barang.nama, emoji: i.barang.emoji, qty: i.qty, harga: i.barang.harga, subtotal: i.getSubtotal() })),
+      total: this.hitungTotal(), jumlahItem: this.jumlahItem()
+    };
+  }
+}
+
+// ===== KATALOG =====
+const KATALOG = [
+  new Barang('P001','Whey Protein Isolate 1kg',450000,'Protein','🥛'),
+  new Barang('P002','Casein Protein 1kg',380000,'Protein','🍼'),
+  new Barang('P003','BCAA 8:1:1 30srv',210000,'Amino','💊'),
+  new Barang('P004','Creatine Monohydrate 250g',175000,'Strength','🔥'),
+  new Barang('P005','Pre-Workout Extreme',280000,'Energy','⚡'),
+  new Barang('P006','Mass Gainer 3kg',520000,'Protein','💪'),
+  new Barang('P007','Omega-3 Fish Oil 90caps',130000,'Vitamin','🐟'),
+  new Barang('P008','Vitamin C 1000mg 60tabs',55000,'Vitamin','🍋'),
+  new Barang('P009','Magnesium Glycinate',95000,'Vitamin','💎'),
+  new Barang('P010','Energy Bar Coklat',18000,'Snack','🍫'),
+  new Barang('P011','Energy Bar Vanilla',18000,'Snack','🍪'),
+  new Barang('P012','Oat Meal 1kg',45000,'Carb','🌾'),
+  new Barang('P013','Almond Butter 400g',125000,'Healthy Fat','🥜'),
+  new Barang('P014','Chicken Breast 500g',55000,'Whole Food','🍗'),
+  new Barang('P015','Tuna Can 185g',18500,'Whole Food','🐠'),
+  new Barang('P016','Electrolyte Powder 30srv',95000,'Hydration','💧'),
+  new Barang('P017','ZMA Sleep Aid 60caps',145000,'Recovery','🌙'),
+  new Barang('P018','Foam Roller',185000,'Recovery','🔵'),
+];
+
+// ===== STATE =====
+let state = { user: null, transaksi: null, filter: 'ALL' };
+let users = JSON.parse(localStorage.getItem('af_users') || '{}');
+
+// ===== AUTH =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showAlert(elId, msg, type = 'error') {
+  const el = document.getElementById(elId);
+  el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+  setTimeout(() => el.innerHTML = '', 4000);
+}
+
+function handleRegister() {
+  const u = document.getElementById('reg-username').value.trim().toUpperCase();
+  const n = document.getElementById('reg-name').value.trim();
+  const p = document.getElementById('reg-pass').value;
+  if (!u || !n || !p) return showAlert('reg-alert', 'All fields are required');
+  if (p.length < 4) return showAlert('reg-alert', 'Password min. 4 characters');
+  if (users[u]) return showAlert('reg-alert', 'Athlete ID already exists');
+  users[u] = { name: n, pass: p };
+  localStorage.setItem('af_users', JSON.stringify(users));
+  showAlert('reg-alert', 'Account created! Please sign in.', 'success');
+  setTimeout(() => showPage('page-login'), 1500);
+}
+
+function handleLogin() {
+  const u = document.getElementById('login-username').value.trim().toUpperCase();
+  const p = document.getElementById('login-pass').value;
+  if (!u || !p) return showAlert('login-alert', 'Fill all fields');
+  if (!users[u] || users[u].pass !== p) return showAlert('login-alert', 'Invalid credentials');
+  state.user = { id: u, name: users[u].name };
+  state.transaksi = new Transaksi(users[u].name);
+  document.getElementById('nav-username').textContent = u;
+  document.getElementById('nav-username-r').textContent = u;
+  document.getElementById('dash-name').innerHTML = users[u].name.split(' ')[0] + ' <span>' + (users[u].name.split(' ')[1] || 'FUEL') + '</span>';
+  renderCatalog(); renderCart(); updateStats();
+  showPage('page-dashboard');
+}
+
+function handleLogout() {
+  state.user = null; state.transaksi = null;
+  showPage('page-login');
+}
+
+// ===== TABS =====
+function switchTab(tab) {
+  ['catalog','cart','tests'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-tab').forEach((b, i) => {
+    b.classList.toggle('active', ['catalog','cart','tests'][i] === tab);
+  });
+  if (tab === 'cart') renderCart();
+}
+
+// ===== CATALOG =====
+function renderCatalog() {
+  const cats = ['ALL', ...new Set(KATALOG.map(b => b.kategori))];
+  document.getElementById('cat-filters').innerHTML = cats.map(c =>
+    `<button class="filter-pill ${c === state.filter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join('');
+  const list = state.filter === 'ALL' ? KATALOG : KATALOG.filter(b => b.kategori === state.filter);
+  document.getElementById('catalog-grid').innerHTML = list.map(b => `
+    <div class="item-card">
+      <div class="item-card-top">
+        <span class="item-card-tag">${b.kategori}</span>
+        ${b.emoji}
+      </div>
+      <div class="item-card-body">
+        <div class="item-card-name">${b.nama}</div>
+        <div class="item-card-price">${b.getHargaFormatted()}</div>
+        <div class="item-card-add">
+          <input class="qty-box" type="number" id="qty-${b.id}" min="1" value="1" onkeydown="return false">
+          <button class="btn-add" onclick="addToCart('${b.id}')">+ ADD</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setFilter(cat) { state.filter = cat; renderCatalog(); }
+
+function addToCart(id) {
+  const b = KATALOG.find(x => x.id === id);
+  const qty = parseInt(document.getElementById('qty-' + id).value) || 1;
+  state.transaksi.tambahBarang(b, qty);
+  document.getElementById('qty-' + id).value = 1;
+  updateStats();
+  // Flash card
+  const card = document.getElementById('qty-' + id).closest('.item-card');
+  card.style.borderColor = 'var(--red)';
+  setTimeout(() => card.style.borderColor = '', 500);
+}
+
+// ===== CART =====
+function renderCart() {
+  const items = state.transaksi ? state.transaksi.items : [];
+  const listEl = document.getElementById('cart-list');
+  const linesEl = document.getElementById('summary-lines');
+  const totalEl = document.getElementById('summary-total');
+  const btn = document.getElementById('btn-checkout');
+
+  if (!items.length) {
+    listEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Your cart is empty<br>Add items from the catalog</div></div>`;
+    linesEl.innerHTML = ''; totalEl.textContent = 'Rp 0'; btn.disabled = true; return;
+  }
+
+  listEl.innerHTML = items.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${item.barang.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.barang.nama}</div>
+        <div class="cart-item-unit">${item.barang.getHargaFormatted()} / unit</div>
+      </div>
+      <div class="cart-qty-ctrl">
+        <button class="qty-ctrl-btn" onclick="changeQty('${item.barang.id}',-1)">−</button>
+        <div class="qty-ctrl-num">${item.qty}</div>
+        <button class="qty-ctrl-btn" onclick="changeQty('${item.barang.id}',1)">+</button>
+      </div>
+      <div class="cart-item-subtotal">Rp ${item.getSubtotal().toLocaleString('id-ID')}</div>
+      <button class="btn-remove" onclick="removeFromCart('${item.barang.id}')">✕</button>
+    </div>
+  `).join('');
+
+  linesEl.innerHTML = items.map(i => `
+    <div class="summary-line">
+      <span class="s-name">${i.barang.nama.substring(0,20)}${i.barang.nama.length>20?'…':''} ×${i.qty}</span>
+      <span class="s-val">Rp ${i.getSubtotal().toLocaleString('id-ID')}</span>
+    </div>
+  `).join('');
+
+  const total = state.transaksi.hitungTotal();
+  totalEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
+  btn.disabled = false;
+  updateStats();
+}
+
+function changeQty(id, delta) {
+  const item = state.transaksi.items.find(i => i.barang.id === id);
+  if (!item) return;
+  if (item.qty + delta < 1) return removeFromCart(id);
+  state.transaksi.updateQty(id, item.qty + delta);
+  renderCart();
+}
+
+function removeFromCart(id) {
+  state.transaksi.hapusBarang(id);
+  renderCart(); updateStats();
+}
+
+function updateStats() {
+  if (!state.transaksi) return;
+  const items = state.transaksi.jumlahItem();
+  const total = state.transaksi.hitungTotal();
+  document.getElementById('stat-items').textContent = items;
+  document.getElementById('stat-total').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('cart-count').textContent = items;
+}
+
+// ===== CHECKOUT =====
+function handleCheckout() {
+  try {
+    state.transaksi.selesaikan();
+    const struk = state.transaksi.tampilkanStruk();
+    renderReceipt(struk);
+    showPage('page-receipt');
+  } catch(e) { alert(e.message); }
+}
+
+function renderReceipt(struk) {
+  document.getElementById('receipt-content').innerHTML = `
+    <div class="receipt-paper">
+      <div class="receipt-head">
+        <div class="receipt-brand-name">ATHLETE FUEL</div>
+        <div class="receipt-brand-sub">Performance Nutrition Store</div>
+        <div class="receipt-id">${struk.id}</div>
+      </div>
+      <div class="receipt-body">
+        <div class="receipt-meta">
+          <div class="receipt-meta-item">
+            <div class="receipt-meta-label">Athlete</div>
+            <div class="receipt-meta-val">${struk.pelanggan}</div>
+          </div>
+          <div class="receipt-meta-item">
+            <div class="receipt-meta-label">Date & Time</div>
+            <div class="receipt-meta-val">${struk.waktu}</div>
+          </div>
+          <div class="receipt-meta-item">
+            <div class="receipt-meta-label">Total Items</div>
+            <div class="receipt-meta-val">${struk.jumlahItem} Units</div>
+          </div>
+          <div class="receipt-meta-item">
+            <div class="receipt-meta-label">Products</div>
+            <div class="receipt-meta-val">${struk.items.length} Types</div>
+          </div>
+        </div>
+        <div class="receipt-items">
+          ${struk.items.map(i => `
+            <div class="receipt-item">
+              <div class="receipt-item-left">
+                <div class="receipt-item-name">${i.emoji} ${i.nama}</div>
+                <div class="receipt-item-detail">${i.qty} × Rp ${i.harga.toLocaleString('id-ID')}</div>
+              </div>
+              <div class="receipt-item-sub">Rp ${i.subtotal.toLocaleString('id-ID')}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="receipt-total-row">
+          <div class="receipt-total-label">TOTAL INVESTMENT</div>
+          <div class="receipt-total-val">Rp ${struk.total.toLocaleString('id-ID')}</div>
+        </div>
+      </div>
+      <div class="receipt-foot">
+        FUEL YOUR PERFORMANCE — INVEST IN YOUR HEALTH<br>
+        THANK YOU, ${struk.pelanggan.toUpperCase()}
+      </div>
+      <div class="receipt-actions">
+        <button class="btn-outline" onclick="newTransaction()">NEW ORDER</button>
+        <button class="btn-filled" onclick="window.print()">PRINT</button>
+      </div>
+    </div>
+  `;
+}
+
+function newTransaction() {
+  state.transaksi = new Transaksi(state.user.name);
+  updateStats(); renderCart(); switchTab('catalog');
+  showPage('page-dashboard');
+}
+
+// ===== TESTS =====
+function runAllTests() {
+  const results = [];
+
+  // Unit Test 1
+  try {
+    const t = new Transaksi('Test');
+    const b1 = new Barang('T1','Protein',100000,'Test','🧪');
+    const b2 = new Barang('T2','Carb',50000,'Test','🧪');
+    t.tambahBarang(b1,2); t.tambahBarang(b2,3);
+    const pass = t.hitungTotal() === 350000 && t.hitungTotal() >= 0;
+    results.push({ name:'Unit Test | Perhitungan Total Belanja', pass, detail:`Expected: Rp 350.000 | Got: Rp ${t.hitungTotal().toLocaleString('id-ID')}`, icon:'🧮' });
+  } catch(e) { results.push({ name:'Unit Test | Perhitungan Total Belanja', pass:false, detail:e.message, icon:'🧮' }); }
+
+  // Unit Test 2
+  try {
+    let blocked = false, created = false;
+    try { new Barang('X','Bad',-1000); } catch(e) { blocked = e.message === 'Harga tidak boleh negatif'; }
+    const b = new Barang('V','Valid',75000); created = b.nama === 'Valid' && b.harga === 75000;
+    results.push({ name:'Unit Test | Input & Validasi Barang', pass: blocked && created, detail:`Harga negatif diblokir: ${blocked ? '✓' : '✗'} | Barang valid dibuat: ${created ? '✓' : '✗'}`, icon:'📦' });
+  } catch(e) { results.push({ name:'Unit Test | Input & Validasi Barang', pass:false, detail:e.message, icon:'📦' }); }
+
+  // Unit Test 3
+  try {
+    const b = new Barang('F','Free',0); const t = new Transaksi('T'); t.tambahBarang(b,5);
+    const pass = t.hitungTotal() >= 0;
+    results.push({ name:'Unit Test | Total Tidak Boleh Negatif', pass, detail:`Total: Rp ${t.hitungTotal().toLocaleString('id-ID')} — ${pass ? 'VALID ≥ 0' : 'INVALID'}`, icon:'🛡' });
+  } catch(e) { results.push({ name:'Unit Test | Total Tidak Boleh Negatif', pass:false, detail:e.message, icon:'🛡' }); }
+
+  // Integration Test
+  try {
+    const b1 = new Barang('I1','Protein',200000,'P','🥛');
+    const b2 = new Barang('I2','Vitamin',80000,'V','💊');
+    const trx = new Transaksi('Integration Athlete');
+    trx.tambahBarang(b1,2); trx.tambahBarang(b2,1);
+    const total = trx.hitungTotal();
+    trx.selesaikan();
+    const struk = trx.tampilkanStruk();
+    const pass = total === 480000 && struk.items.length === 2 && struk.total === 480000 && struk.id.startsWith('TXN-');
+    results.push({ name:'Integration Test | Input → Transaksi → Total → Struk', pass, detail:`Total: Rp ${total.toLocaleString('id-ID')} | Items: ${struk.items.length} | ID: ${struk.id}`, icon:'🔗' });
+  } catch(e) { results.push({ name:'Integration Test | Input → Transaksi → Total → Struk', pass:false, detail:e.message, icon:'🔗' }); }
+
+  // Integration Test 2
+  try {
+    const b = new Barang('S1','Item',50000,'T','🧪');
+    const trx = new Transaksi('Tester');
+    trx.tambahBarang(b,3); trx.updateQty('S1',5);
+    const after = trx.hitungTotal();
+    trx.hapusBarang('S1');
+    const pass = after === 250000 && trx.hitungTotal() === 0 && trx.items.length === 0;
+    results.push({ name:'Integration Test | Update & Hapus di Transaksi', pass, detail:`After update ×5: Rp ${after.toLocaleString('id-ID')} | After remove: Rp 0`, icon:'🔄' });
+  } catch(e) { results.push({ name:'Integration Test | Update & Hapus di Transaksi', pass:false, detail:e.message, icon:'🔄' }); }
+
+  const passed = results.filter(r => r.pass).length;
+  const failed = results.length - passed;
+
+  document.getElementById('test-output').innerHTML = `
+    <div class="test-panel">
+      <div class="test-panel-title">TEST RESULTS — <span>${passed}/${results.length} PASSED</span></div>
+      ${results.map(r => `
+        <div class="test-line">
+          <span class="test-icon">${r.icon}</span>
+          <span class="test-name">${r.name}</span>
+          <span class="test-badge ${r.pass ? 'pass' : 'fail'}">${r.pass ? 'PASS' : 'FAIL'}</span>
+        </div>
+        <div class="test-detail">» ${r.detail}</div>
+      `).join('')}
+      <div class="test-summary">
+        <span class="ts-item ts-pass">✓ PASSED: ${passed}</span>
+        <span class="ts-item ts-fail">✗ FAILED: ${failed}</span>
+        <span class="ts-item ts-total">TOTAL: ${results.length}</span>
+      </div>
+    </div>
+  `;
+}
+
+// Enter key for auth
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const active = document.querySelector('.page.active');
+  if (active.id === 'page-login') handleLogin();
+  if (active.id === 'page-register') handleRegister();
+});
+</script>
+</body>
+</html>
